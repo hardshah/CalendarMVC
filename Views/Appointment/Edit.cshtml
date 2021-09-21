@@ -1,0 +1,74 @@
+﻿@model CalendarMVC.Models.ViewModels.ViewModel
+@using System.Web
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Appointment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            @Html.HiddenFor(m => m.UserId)
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Appointment.Id" />
+            <div class="form-group">
+                <label asp-for="Appointment.Name" class="control-label"></label>
+                <input asp-for="Appointment.Name" class="form-control" />
+                <span asp-validation-for="Appointment.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Appointment.Description" class="control-label"></label>
+                <input asp-for="Appointment.Description" class="form-control" />
+                <span asp-validation-for="Appointment.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Appointment.StartTime" class="control-label"></label>
+                <input asp-for="Appointment.StartTime" class="form-control" />
+                <span asp-validation-for="Appointment.StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Appointment.EndTime" class="control-label"></label>
+                <input asp-for="Appointment.EndTime" class="form-control" />
+                <span asp-validation-for="Appointment.EndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Client</label>
+                @Html.DropDownList("Client", Model.Client, "Select a Client", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function SetSelectedClient(Client) {
+        var Clients = document.getElementById('Client'), loc, i;
+
+        for (i = 0; i < Clients.length; i++) {
+            loc = Clients[i];
+            if (loc.innerText === Client) {
+                loc.selected = "true";
+            }
+        }
+    }
+
+    var AppointmentClient = "@Html.Raw(Model.ClientName)";
+
+    document.addEventListener('DOMContentLoaded', function () {
+        SetSelectedClient(AppointmentClient);
+    });
+</script>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
